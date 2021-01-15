@@ -28,9 +28,17 @@ ARTICLES = [
 #########################
 
 def calculate_recipients
+  binding.pry
   # Using the SUBSCRIBERS and UNSUBSCRIBED arrays,
   # write a method that will return an array of only the subscribers who haven't unsubscribed
-  SUBSCRIBERS
+  UNSUBSCRIBERS.each do |email| 
+    if SUBSCRIBERS.include?(email)
+      SUBSCRIBERS.delete(email)
+      binding.pry 
+    end
+  binding.pry 
+  end
+
 end
 
 def first_n_articles(number_of_articles)
@@ -41,63 +49,35 @@ def print_recipients
   # Write a method that uses the output of calculate_recipients
   # and returns a list of emails separated by commas
   # Ex) "abc@email.com, def@email.com, ghi@email.com"
-  SUBSCRIBERS.join(', ')
+  return SUBSCRIBERS.join(', ')
 end
+ 
 
 def print_one_article(article)
-  binding.pry
-  
-  # Write a method that will take an article hash
-  # and print the title, author and text as a formatted string
-  # See the README/sample output for examples
-  # article.each do |author, title, text|
-  #   if article == title 
-  #     puts title
-  #     puts "by: #{author}"
-  #     puts text
-  #     binding.pry
-  #   end
-    
-  # end
-  
+  puts article[:title]
+  puts "by: #{article[:author]}"
+  puts "#{article[:text]}\n\n"
 end
 
 def print_many_articles(articles)
-  # articles.each do |element|
-  #   if element.class == Hash
-  #     element.each do |key, value|
-  #       puts value
-  #       binding.pry 
-       
-  #     end
-  #   end
-  # end
-
-  articles.each_with_index do |title, index|
-  binding.pry
+  articles.each do |article|
+    print_one_article(article)
+  end
 end
-  # # Write a method that will take in an array of article hashes
-  # and format each one using the print_one_article method
-    # until articles[0][:title] == articles[-1][:title]
-    #   puts articles[0][:title]
-    #   puts "by: #{articles[0][:auhtor]}"
-    #   binding.pry
-    # end
     
-      
-
-
+    
 def format_campus_location(campus)
   "Flatiron #{campus["name"]}"
 end
 
 def format_subject
-  puts "#{format_campus_location(CAMPUS)} Newsletter - #{DATE}\n\n"
+  puts "#{format_campus_location(CAMPUS)}DC Newsletter - #{DATE}\n\n"
 end
 
 def format_footer(campus)
   "Flatiron Newsletter · #{campus[:name]} · #{campus[:address]} "
 end
+
 
 def print_newsletter(number)
   puts "Generating this week's newsletter...\n\n"
@@ -105,7 +85,7 @@ def print_newsletter(number)
   print "SUBJECT: "
   format_subject
 
-  print "RECIPIENTS: "
+  print "RECIPIENTS:\n "
   print_recipients
 
   puts "\nBODY:"
